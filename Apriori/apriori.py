@@ -95,11 +95,14 @@ def generateRules(L,supportData,minConf=0.7):
 def calcConf(freqSet,right,supportData,rules,minConf=0.7):
     resRights = []
     for each in right:
-        conf = supportData[freqSet] / supportData[freqSet - each]
-        if conf >= minConf:
-            print('%r --> %r,conf: %r'%(freqSet-each,each,conf))
-            rules.append((freqSet - each,each,conf))
-            resRights.append(each)
+        try:
+            conf = supportData[freqSet] / supportData[freqSet - each]
+            if conf >= minConf:
+                print('%r --> %r,conf: %r'%(freqSet-each,each,conf))
+                rules.append((freqSet - each,each,conf))
+                resRights.append(each)
+        except:
+            pass
     return resRights
 
 #先计算B长度为1的情况，计算完获取返回的符合要求的B，若B长度大于1，说明可以继续组合，将这些B组合成长度为2的B，继续递归
@@ -112,34 +115,16 @@ def getRulesFromFreqSet(freqSet,right,supportData,rules,minConf=0.7):
         if len(lk_p1) > 1:
             getRulesFromFreqSet(freqSet,lk_p1,supportData,rules,minConf)
 
-# def getActionIds():
-#     actionIdList = []
-#     billTitleList = []
-#     for line in open('recent20bills.txt').readlines():
-#         billId = int(line.split('\t')[0])
-#         try:
-#             billDetail = votesmart.votes.getBill(billId)
-#             for action in billDetail.actions:
-#                 if action.level == ' House' and (action.stage == 'Passage' or action.stage == 'Amendment Vote'):
-#                     actionId = int(action.actionId)
-#                     print('actionID:%d billtitle:%d'%(actionId,billId))
-#                     actionIdList.append(actionId)
-#                     billTitleList.append(line.strip().split('\t')[1])
-#         except:
-#             pass
-#         sleep(0.1)
-#     return actionIdList,billTitleList
-
-def testMushroom():
-    mushDataSet = [line.split() for line in open('mushroom.dat')]
-    L,supportData = apriori(mushDataSet,0.3)
+def test():
+    dataSet = [line.split(',') for line in open('testSet.txt','r',encoding='utf-8').readlines()]
+    L,supportData = apriori(dataSet,0.3)
     rules = generateRules(L,supportData,0.9)
-    print(L)
-    print(rules)
+    # print(L)
+    # print(rules)
+    for item in L:
+        for each in item:
+            if '有毒的' in each:
+                print(each)
 
 if __name__ == '__main__':
-    # dataSet = loadData()
-    # L,supportData = apriori(dataSet,0.5)
-    # rules = generateRules(L,supportData,0.5)
-    # print(rules)
-    testMushroom()
+    test()

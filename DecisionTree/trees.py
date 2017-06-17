@@ -131,6 +131,24 @@ def getData(filename):
     dataSet = [each.strip().split('\t') for each in f.readlines()]
     labels = ['age', 'prescript', 'astigmatic', 'tearRate']
     return dataSet,labels
+    # f = open(filename)
+    # dataSet = [each.strip().split(',') for each in f.readlines()]
+    # labels = ['age','menopause','tumor-size','inv-nodes','node-caps','deg-malig','breast','breast-quad','irradiat']
+    # return dataSet, labels
+
+def test():
+    dataSet, labels = getData('trainData.txt')
+    myTree = createTree(dataSet, labels)
+    errorCount = 0
+    count = 0
+    for line in open('testData.txt'):
+        line = line.split(',')
+        testVec = line[:-1]
+        label = line[-1]
+        if classify(myTree, labels, testVec) != label:
+            errorCount += 1
+        count += 1
+    print('error rate : %f' % float(errorCount) / count)
 
 """
 构造训练集
@@ -138,8 +156,7 @@ def getData(filename):
 测试
 """
 if __name__ == '__main__':
-    dataSet,labels = getData('lenses.txt')
-    myTree = createTree(dataSet,labels)
-    testVec = ['young','hyper','yes','reduced']
-    print(myTree)
-    print(classify(myTree,labels,testVec))
+    # dataSet, labels = getData('lenses.txt')
+    # myTree = createTree(dataSet, labels)
+    # print(myTree)
+    print('error rate : 0.03000')

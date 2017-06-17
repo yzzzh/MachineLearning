@@ -94,7 +94,7 @@ def show(dataSet,clusters):
     fig = plt.figure()
     ax = fig.add_subplot(111)
     ax.scatter(dataSet[:,0].A,dataSet[:,1].A,c='green')
-    ax.scatter(clusters[:,0].A,clusters[:,1].A,c='red')
+    ax.scatter(clusters[:,0].A,clusters[:,1].A,c='red',marker='+',s=500)
     plt.show()
 
 def getGeoInfo(city,street):
@@ -133,8 +133,17 @@ def testMap():
         line = line.strip().split('\t')
         dataSet.append([float(line[4]), float(line[3])])
     dataSet = mat(dataSet)
-    clusters, clustersDistances = biKMeans(dataSet, 5, latlngDistance)
+    clusters, clustersDistances = biKMeans(dataSet, 4, latlngDistance)
+    show(dataSet, clusters)
+
+def test():
+    dataSet = []
+    for line in open('testSet2.txt').readlines():
+        line = line.strip().split('\t')
+        dataSet.append([float(line[0]),float(line[1])])
+    dataSet = mat(dataSet)
+    clusters, clustersDistances = biKMeans(dataSet, 3)
     show(dataSet, clusters)
 
 if __name__ == '__main__':
-    testMap()
+    test()
