@@ -135,5 +135,6 @@ def imgCompress(numSVD=3,thresh=0.8):
 if __name__ == '__main__':
     # dataMat = mat(loadData2())
     # print(recommend(dataMat,4,estimateMethod=svdEstimate,getSimilarity=cosSimilar))
-    imgCompress(3)
+    # imgCompress(3)
+    print(corrcoef([1,0,1], [0,0,1], rowvar=0)[0][1])
 

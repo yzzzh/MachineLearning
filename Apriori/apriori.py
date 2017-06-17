@@ -51,7 +51,7 @@ def LkToCk_p1(Lk,kp1):
                 Ck_p1.append(Lk[i]|Lk[j])
     return Ck_p1
 
-#主算法，得到平凡项集和支持度计数
+#主算法，得到频繁项集和支持度计数
 def apriori(dataSet,minSupport=0.5):
     C1 = createC1(dataSet)
     dataSet = list(map(set,dataSet))
